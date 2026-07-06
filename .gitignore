@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+
+# PlatformIO
+.pio/
+
+# VS Code
+.vscode/
+
+# Environment files
+.env
+
+# Operating system files
+Thumbs.db
+.DS_Store
