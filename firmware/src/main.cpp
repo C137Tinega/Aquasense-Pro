@@ -1,37 +1,21 @@
 #include <Arduino.h>
+#include "Config.h"
 
-/*
-============================================================
-AquaSense Pro Firmware
-
-This is the main entry point for the ESP32.
-
-Author: TJ
-Project: AquaSense Pro
-============================================================
-*/
-
-//-----------------------------------------------------------
-// Runs once when the ESP32 starts.
-//-----------------------------------------------------------
 void setup()
 {
-    // Start serial communication at 115200 baud.
-    Serial.begin(115200);
+    Serial.begin(SERIAL_BAUD_RATE);
 
     Serial.println();
     Serial.println("=================================");
-    Serial.println(" AquaSense Pro Firmware Started ");
+    Serial.print(PROJECT_NAME);
+    Serial.print(" v");
+    Serial.println(PROJECT_VERSION);
+    Serial.println("Firmware Boot Successful");
     Serial.println("=================================");
 }
 
-//-----------------------------------------------------------
-// Runs forever.
-//-----------------------------------------------------------
 void loop()
 {
     Serial.println("ESP32 is running...");
-
-    // Wait one second.
     delay(1000);
 }
