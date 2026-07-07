@@ -7,10 +7,11 @@
 
 #include <Arduino.h>
 
+#include "AlarmManager.h"
 #include "Config.h"
+#include "DataValidator.h"
 #include "Logger.h"
 #include "SensorManager.h"
-#include "DataValidator.h"
 
 void setup()
 {
@@ -20,8 +21,9 @@ void setup()
     Logger::info("System", "Firmware Boot Successful");
 
     SensorManager::begin();
+    AlarmManager::begin();
 
-    Logger::info("System", "Sensor Manager Initialized");
+    Logger::info("System", "Initialization Complete");
 }
 
 void loop()
@@ -30,40 +32,14 @@ void loop()
 
     if (DataValidator::validate(data))
     {
-        Logger::info("Validator", "All sensor values are valid.");
+        Logger::info("Validator", "Sensor data valid.");
     }
     else
     {
-        Logger::warning("Validator", "One or more sensor values are invalid.");
+        Logger::warning("Validator", "Invalid sensor data.");
     }
 
-    Serial.println("----------------------------------------");
-    Serial.print("Timestamp: ");
-    Serial.println(data.timestamp);
-
-    Serial.print("Water Temperature: ");
-    Serial.print(data.waterTemperature.value);
-    Serial.print(" °C");
-
-    Serial.print("  [");
-    Serial.print(data.waterTemperature.isValid ? "OK" : "INVALID");
-    Serial.println("]");
-
-    Serial.print("pH: ");
-    Serial.print(data.pH.value);
-    Serial.print("  [");
-    Serial.print(data.pH.isValid ? "OK" : "INVALID");
-    Serial.println("]");
-
-    Serial.print("Dissolved Oxygen: ");
-    Serial.print(data.dissolvedOxygen.value);
-    Serial.print(" mg/L");
-    Serial.print("  [");
-    Serial.print(data.dissolvedOxygen.isValid ? "OK" : "INVALID");
-    Serial.println("]");
-
-    Serial.println("----------------------------------------");
-    Serial.println();
+    AlarmManager::check(data);
 
     delay(SENSOR_READ_INTERVAL_MS);
 }
