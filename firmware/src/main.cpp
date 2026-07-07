@@ -1,21 +1,19 @@
 #include <Arduino.h>
+
 #include "Config.h"
+#include "Logger.h"
 
 void setup()
 {
-    Serial.begin(SERIAL_BAUD_RATE);
+    Logger::begin(SERIAL_BAUD_RATE);
 
-    Serial.println();
-    Serial.println("=================================");
-    Serial.print(PROJECT_NAME);
-    Serial.print(" v");
-    Serial.println(PROJECT_VERSION);
-    Serial.println("Firmware Boot Successful");
-    Serial.println("=================================");
+    Logger::info(PROJECT_NAME);
+    Logger::info("Firmware Boot Successful");
 }
 
 void loop()
 {
-    Serial.println("ESP32 is running...");
+    Logger::info("ESP32 is running.");
+
     delay(1000);
 }
