@@ -31,10 +31,7 @@ void CloudManager::process()
         JsonSerializer::serialize(data);
 
     bool success =
-        HttpClientManager::postJson(
-            SENSOR_ENDPOINT,
-            json
-        );
+    HttpClientManager::uploadSensorData(json);
 
     if (success)
     {

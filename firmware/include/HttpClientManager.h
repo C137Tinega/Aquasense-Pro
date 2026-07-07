@@ -7,18 +7,8 @@
 ============================================================
 HttpClientManager
 
-Purpose:
-Handles communication between the ESP32 and the backend API.
-
-Responsibilities:
-- Send HTTP POST requests
-- Receive responses
-- Return whether the request succeeded
-
-It DOES NOT:
-- Read sensors
-- Build JSON
-- Manage Wi-Fi
+Responsible for sending HTTP requests
+to the AquaSense backend.
 ============================================================
 */
 
@@ -28,8 +18,12 @@ public:
 
     static void begin();
 
-    static bool postJson(const String& endpoint,
-                         const String& json);
+    /*
+    Upload one sensor reading.
+
+    Returns true if the backend accepted it.
+    */
+    static bool uploadSensorData(const String& json);
 
 };
 
