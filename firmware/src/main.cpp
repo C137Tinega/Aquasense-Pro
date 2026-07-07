@@ -1,7 +1,6 @@
 /*
 ============================================================
  AquaSense Pro
- Main Application
 ============================================================
 */
 
@@ -15,18 +14,19 @@
 #include "DisplayManager.h"
 #include "Logger.h"
 #include "SensorManager.h"
+#include "WiFiManager.h"
 
 void setup()
 {
     Logger::begin(SERIAL_BAUD_RATE);
 
     Logger::info("System", PROJECT_NAME);
-    Logger::info("System", "Firmware Boot Successful");
 
     SensorManager::begin();
     AlarmManager::begin();
     DisplayManager::begin();
     DataQueue::begin();
+    WiFiManager::begin();
     CloudManager::begin();
 
     Logger::info("System", "Initialization Complete");
@@ -34,6 +34,8 @@ void setup()
 
 void loop()
 {
+    WiFiManager::update();
+
     SensorData data = SensorManager::readAll();
 
     if (DataValidator::validate(data))

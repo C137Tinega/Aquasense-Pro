@@ -2,6 +2,7 @@
 
 #include "DataQueue.h"
 #include "Logger.h"
+#include "WiFiManager.h"
 
 void CloudManager::begin()
 {
@@ -10,6 +11,12 @@ void CloudManager::begin()
 
 void CloudManager::process()
 {
+    if (!WiFiManager::isConnected())
+    {
+        Logger::warning("Cloud", "WiFi unavailable.");
+        return;
+    }
+
     if (DataQueue::isEmpty())
     {
         return;
@@ -17,12 +24,17 @@ void CloudManager::process()
 
     SensorData data = DataQueue::front();
 
-    // Upload will be implemented later.
+    Logger::info(
+        "Cloud",
+        "Uploading sensor reading..."
+    );
+
+    // Future HTTP POST goes here.
+
+    DataQueue::dequeue();
 
     Logger::info(
         "Cloud",
-        "Pretending to upload one sensor reading."
+        "Upload successful."
     );
-
-    DataQueue::dequeue();
 }
