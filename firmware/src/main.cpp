@@ -9,6 +9,7 @@
 
 #include "AlarmManager.h"
 #include "Config.h"
+#include "DataQueue.h"
 #include "DataValidator.h"
 #include "DisplayManager.h"
 #include "Logger.h"
@@ -24,6 +25,7 @@ void setup()
     SensorManager::begin();
     AlarmManager::begin();
     DisplayManager::begin();
+    DataQueue::begin();
 
     Logger::info("System", "Initialization Complete");
 }
@@ -35,6 +37,14 @@ void loop()
     if (DataValidator::validate(data))
     {
         Logger::info("Validator", "Sensor data valid.");
+
+        // Store the reading
+        DataQueue::enqueue(data);
+
+        Logger::info(
+            "Queue",
+            ("Queue Size: " + String(DataQueue::size())).c_str()
+        );
     }
     else
     {
