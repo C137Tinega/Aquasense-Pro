@@ -6,24 +6,54 @@ void Logger::begin(unsigned long baudRate)
 
     Serial.println();
     Serial.println("=================================");
-    Serial.println(" Logger Started");
+    Serial.println(" AquaSense Logger Started");
     Serial.println("=================================");
 }
 
-void Logger::info(const String& message)
+void Logger::log(
+    LogLevel level,
+    const String& module,
+    const String& message)
 {
-    Serial.print("[INFO] ");
+    switch(level)
+    {
+        case LogLevel::INFO:
+            Serial.print("[INFO] ");
+            break;
+
+        case LogLevel::WARNING:
+            Serial.print("[WARNING] ");
+            break;
+
+        case LogLevel::ERROR:
+            Serial.print("[ERROR] ");
+            break;
+    }
+
+    Serial.print("[");
+    Serial.print(module);
+    Serial.print("] ");
+
     Serial.println(message);
 }
 
-void Logger::warning(const String& message)
+void Logger::info(
+    const String& module,
+    const String& message)
 {
-    Serial.print("[WARNING] ");
-    Serial.println(message);
+    log(LogLevel::INFO, module, message);
 }
 
-void Logger::error(const String& message)
+void Logger::warning(
+    const String& module,
+    const String& message)
 {
-    Serial.print("[ERROR] ");
-    Serial.println(message);
+    log(LogLevel::WARNING, module, message);
+}
+
+void Logger::error(
+    const String& module,
+    const String& message)
+{
+    log(LogLevel::ERROR, module, message);
 }
