@@ -2,20 +2,22 @@
 
 void SensorManager::begin()
 {
-    // Hardware initialization will go here later.
+    // Hardware initialization will be added later.
 }
 
 SensorData SensorManager::readAll()
 {
     SensorData data;
 
-    // Temporary simulated values
-    data.waterTemperature = 26.4;
-    data.pH = 7.1;
-    data.dissolvedOxygen = 6.8;
-    data.tds = 340.0;
-    data.airTemperature = 24.0;
-    data.humidity = 62.0;
+    data.timestamp = millis();
+
+    // Simulated sensor readings
+    data.waterTemperature.value = 26.4f;
+    data.pH.value = 7.1f;
+    data.dissolvedOxygen.value = 6.8f;
+    data.tds.value = 340.0f;
+    data.airTemperature.value = 24.0f;
+    data.humidity.value = 62.0f;
 
     return data;
 }

@@ -1,45 +1,49 @@
 #include "DataValidator.h"
+#include "Config.h"
 
 bool DataValidator::validate(SensorData& data)
 {
-    bool valid = true;
+    data.waterTemperature.isValid = validateTemperature(data.waterTemperature.value);
+    data.pH.isValid = validatePH(data.pH.value);
+    data.dissolvedOxygen.isValid = validateDO(data.dissolvedOxygen.value);
+    data.tds.isValid = validateTDS(data.tds.value);
+    data.airTemperature.isValid = validateAirTemperature(data.airTemperature.value);
+    data.humidity.isValid = validateHumidity(data.humidity.value);
 
-    valid &= validateTemperature(data.waterTemperature);
-    valid &= validatePH(data.pH);
-    valid &= validateDO(data.dissolvedOxygen);
-    valid &= validateTDS(data.tds);
-    valid &= validateAirTemperature(data.airTemperature);
-    valid &= validateHumidity(data.humidity);
-
-    return valid;
+    return data.waterTemperature.isValid &&
+           data.pH.isValid &&
+           data.dissolvedOxygen.isValid &&
+           data.tds.isValid &&
+           data.airTemperature.isValid &&
+           data.humidity.isValid;
 }
 
 bool DataValidator::validateTemperature(float value)
 {
-    return value >= 0.0f && value <= 50.0f;
+    return value >= MIN_WATER_TEMP && value <= MAX_WATER_TEMP;
 }
 
 bool DataValidator::validatePH(float value)
 {
-    return value >= 0.0f && value <= 14.0f;
+    return value >= MIN_PH && value <= MAX_PH;
 }
 
 bool DataValidator::validateDO(float value)
 {
-    return value >= 0.0f && value <= 20.0f;
+    return value >= MIN_DO && value <= MAX_DO;
 }
 
 bool DataValidator::validateTDS(float value)
 {
-    return value >= 0.0f && value <= 5000.0f;
+    return value >= MIN_TDS && value <= MAX_TDS;
 }
 
 bool DataValidator::validateAirTemperature(float value)
 {
-    return value >= -20.0f && value <= 80.0f;
+    return value >= MIN_AIR_TEMP && value <= MAX_AIR_TEMP;
 }
 
 bool DataValidator::validateHumidity(float value)
 {
-    return value >= 0.0f && value <= 100.0f;
+    return value >= MIN_HUMIDITY && value <= MAX_HUMIDITY;
 }

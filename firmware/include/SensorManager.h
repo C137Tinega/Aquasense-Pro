@@ -3,19 +3,32 @@
 
 #include <Arduino.h>
 
+/*
+============================================================
+ Sensor Reading
+ Represents a single sensor measurement.
+============================================================
+*/
+struct SensorReading
+{
+    float value = 0.0f;
+    bool isValid = true;
+};
+
+/*
+============================================================
+ Sensor Data
+ Contains one complete set of readings from AquaSense.
+============================================================
+*/
 struct SensorData
 {
-    float waterTemperature = 0.0f;
-
-    float pH = 0.0f;
-
-    float dissolvedOxygen = 0.0f;
-
-    float tds = 0.0f;
-
-    float airTemperature = 0.0f;
-
-    float humidity = 0.0f;
+    SensorReading waterTemperature;
+    SensorReading pH;
+    SensorReading dissolvedOxygen;
+    SensorReading tds;
+    SensorReading airTemperature;
+    SensorReading humidity;
 
     unsigned long timestamp = 0;
 };
@@ -23,6 +36,7 @@ struct SensorData
 class SensorManager
 {
 public:
+
     static void begin();
 
     static SensorData readAll();
