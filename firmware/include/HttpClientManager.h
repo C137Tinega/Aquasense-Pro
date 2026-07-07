@@ -7,8 +7,15 @@
 ============================================================
 HttpClientManager
 
-Responsible for sending HTTP requests
-to the AquaSense backend.
+Responsible for:
+- Sending HTTP POST requests
+- Receiving responses
+- Returning upload status
+
+This class DOES NOT:
+- Read sensors
+- Build JSON
+- Manage Wi-Fi
 ============================================================
 */
 
@@ -18,12 +25,14 @@ public:
 
     static void begin();
 
-    /*
-    Upload one sensor reading.
-
-    Returns true if the backend accepted it.
-    */
     static bool uploadSensorData(const String& json);
+
+private:
+
+    static bool sendPostRequest(
+        const String& url,
+        const String& json
+    );
 
 };
 
