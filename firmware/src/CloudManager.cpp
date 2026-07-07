@@ -1,6 +1,9 @@
 #include "CloudManager.h"
 
+#include "Config.h"
 #include "DataQueue.h"
+#include "HttpClientManager.h"
+#include "JsonSerializer.h"
 #include "Logger.h"
 #include "WiFiManager.h"
 
@@ -24,17 +27,29 @@ void CloudManager::process()
 
     SensorData data = DataQueue::front();
 
-    Logger::info(
-        "Cloud",
-        "Uploading sensor reading..."
-    );
+    String json =
+        JsonSerializer::serialize(data);
 
-    // Future HTTP POST goes here.
+    bool success =
+        HttpClientManager::postJson(
+            SENSOR_ENDPOINT,
+            json
+        );
 
-    DataQueue::dequeue();
+    if (success)
+    {
+        Logger::info(
+            "Cloud",
+            "Upload successful."
+        );
 
-    Logger::info(
-        "Cloud",
-        "Upload successful."
-    );
+        DataQueue::dequeue();
+    }
+    else
+    {
+        Logger::warning(
+            "Cloud",
+            "Upload failed."
+        );
+    }
 }

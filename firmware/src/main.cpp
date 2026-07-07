@@ -15,6 +15,7 @@
 #include "Logger.h"
 #include "SensorManager.h"
 #include "WiFiManager.h"
+#include "HttpClientManager.h"
 
 void setup()
 {
@@ -27,6 +28,8 @@ void setup()
     DisplayManager::begin();
     DataQueue::begin();
     WiFiManager::begin();
+    WiFiManager::begin();
+    HttpClientManager::begin();
     CloudManager::begin();
 
     Logger::info("System", "Initialization Complete");
