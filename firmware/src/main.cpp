@@ -8,6 +8,7 @@
 #include <Arduino.h>
 
 #include "AlarmManager.h"
+#include "CloudManager.h"
 #include "Config.h"
 #include "DataQueue.h"
 #include "DataValidator.h"
@@ -26,6 +27,7 @@ void setup()
     AlarmManager::begin();
     DisplayManager::begin();
     DataQueue::begin();
+    CloudManager::begin();
 
     Logger::info("System", "Initialization Complete");
 }
@@ -36,22 +38,12 @@ void loop()
 
     if (DataValidator::validate(data))
     {
-        Logger::info("Validator", "Sensor data valid.");
-
-        // Store the reading
         DataQueue::enqueue(data);
-
-        Logger::info(
-            "Queue",
-            ("Queue Size: " + String(DataQueue::size())).c_str()
-        );
-    }
-    else
-    {
-        Logger::warning("Validator", "Invalid sensor data.");
     }
 
     AlarmManager::check(data);
+
+    CloudManager::process();
 
     DisplayManager::showSensorData(data);
 
