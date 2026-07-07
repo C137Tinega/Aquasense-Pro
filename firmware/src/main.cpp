@@ -10,6 +10,7 @@
 #include "AlarmManager.h"
 #include "Config.h"
 #include "DataValidator.h"
+#include "DisplayManager.h"
 #include "Logger.h"
 #include "SensorManager.h"
 
@@ -22,6 +23,7 @@ void setup()
 
     SensorManager::begin();
     AlarmManager::begin();
+    DisplayManager::begin();
 
     Logger::info("System", "Initialization Complete");
 }
@@ -40,6 +42,8 @@ void loop()
     }
 
     AlarmManager::check(data);
+
+    DisplayManager::showSensorData(data);
 
     delay(SENSOR_READ_INTERVAL_MS);
 }
